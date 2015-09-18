@@ -9,14 +9,16 @@
 import UIKit
 
 @objc(KeyboardNotificationHandler)
-public class KeyboardNotificationHandler {
+public class KeyboardNotificationHandler: NSObject {
   
   public typealias KeyboardHandlerCallback = (CGFloat) -> ()
   
   public var keyboardWillBeHiddenHandler: KeyboardHandlerCallback?
   public var keyboardWillBeShownHandler:  KeyboardHandlerCallback?
   
-  public required init() {
+  public required override init() {
+    super.init()
+    
     NSNotificationCenter.defaultCenter().addObserver(self,
       selector: "keyboardWillBeShown:",
       name: "UIKeyboardWillShowNotification",
@@ -44,7 +46,7 @@ public class KeyboardNotificationHandler {
   
   private func invokeHandler(notification: NSNotification, callback: KeyboardHandlerCallback?) {
     if let info = notification.userInfo, callback = callback {
-      var keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+      let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         callback(keyboardFrame.height)
     }
   }

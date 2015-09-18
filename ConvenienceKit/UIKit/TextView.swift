@@ -12,7 +12,7 @@ public class TextView : UITextView {
 
   public var placeholderText: String = "Tap to edit"
   
-  public required init(coder aDecoder: NSCoder) {
+  public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     initialize()
   }
@@ -79,7 +79,7 @@ public class TextView : UITextView {
   @IBInspectable public var placeHolderTextColor: UIColor = UIColor.lightGrayColor()
   
   public func textViewDidEndEditing(notification: NSNotification) {
-    self.showsPlaceholderText = (count(self.text) == 0)
+    self.showsPlaceholderText = (self.text.characters.count == 0)
   }
   
   public func textViewDidBeginEditing(notification: NSNotification) {
